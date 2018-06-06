@@ -1,0 +1,93 @@
+.main {
+    /*background-color: #dfe0e2;*/
+    border-radius: 2px;
+    position: relative;
+}
+
+
+.container {
+    padding: 0;
+    height: inherit;
+    margin: 0;
+    overflow: hidden;
+    width: inherit;
+    position: relative;
+    z-index: 1;
+}
+
+.container:hover {
+   cursor: pointer;
+}
+
+.indicator {
+    list-style: none;
+    height: 1.5em;
+    background-color: transparent;
+    border-radius: 1px;
+    transition-duration: .4s;
+    box-sizing: content-box;
+    margin: 0 .4em;
+    align-items: center;
+    margin-bottom: .6em;
+}
+.indicator:hover{
+    cursor: pointer;
+}
+
+.indicator_button.is_active {
+    background-color: #fff;
+}
+
+.indicator_button{
+    display: inline-block;
+    width: 2.4em;
+    height: 0.15em;
+    background-color: #bebfc1;
+    border-radius: 1px;
+    transition-duration: .4s;
+    margin: 0 .4em;
+    border: none;
+}
+
+.indicator_set{
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: row;
+    display: flex;
+    height: 1.6em;
+    z-index: 2;
+}
+
+.circle_button{
+    position: absolute;
+    width: 1.8em;
+    height: 1.8em;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.17);
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    font-family: Consolas;
+    z-index: 2;
+    top: calc(50% - 0.9em);
+    transition-duration: .4s;
+}
+
+.circle_button:hover{
+    background-color: rgba(0, 0, 0, 0.48);
+    cursor: pointer;
+}
+
+.prev{
+    left: 0;
+}
+
+.next{
+    right: 0;
+}

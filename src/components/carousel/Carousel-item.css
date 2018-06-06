@@ -1,0 +1,18 @@
+.item {
+    position: absolute;
+    left: 0;
+    text-align: center;
+    height: inherit;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+    z-index: 0;
+}
+
+.is_animating {
+    transition: transform .4s ease-in-out;
+}
+
+.is_active {
+    z-index: 2;
+}

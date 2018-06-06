@@ -1,0 +1,26 @@
+.main {
+    position: relative;
+    display: inline-block;
+    align-items: center;
+    font-family: "PingFang SC","Fira Code", sans-serif;
+}
+
+.PickerTable {
+    top: 3em;
+    left: 5px;
+    margin-top: .2em;
+    padding: .5em;
+    width: 10.5em;
+    height: 10em;
+    box-shadow: 0 0 10px #dcdcec;
+    background-color: #fff;
+    border-radius: 3px;
+    position: absolute;
+    z-index: 999;
+    animation: amSlideDown .1s linear;
+    overflow: hidden;
+}
+
+.wheelTimePanel {
+
+}
