@@ -73,6 +73,8 @@ class Carousel_item extends Component {
             (newTranslate <= width.match(/[0-9]*/) * gap && newTranslate >=0) || newTranslate === -width.match(/[0-9]*/)
             : gap === 1-length ? true : newTranslate <= width.match(/[0-9]*/)*gap && newTranslate >=0 ;
 
+        // let judgeAnimating = Math.abs(newTranslate) <= width.match(/[0-9]*/);
+
             this.setState({
                 activeIndex: activeIndex,
                 animating: judgeAnimating,

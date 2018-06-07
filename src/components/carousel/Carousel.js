@@ -36,10 +36,14 @@ class Carousel extends Component {
         this.num        = props.children? props.children.length : 3;
         this.Interval   = props.Interval || 3000;
 
-        // 用于事件节流
-        this.throttledIndicatorHover = throttle(300, index => {
+        // 用于事件节流,同时避免因为点击过快造成的各种问题
+        this.throttledIndicatorHover = throttle(400, index => {
             this.handleIndicatorHover(index);
         });
+
+        this.throttledIndicatorClick = throttle(500, index => {
+            this.handleButtonClick(index)
+        })
     }
 
     getChildContext() {
@@ -164,7 +168,7 @@ class Carousel extends Component {
             >
                 <button
                     className={`${style.circle_button} ${style.prev}`}
-                    onClick={()=>{this.handleButtonClick(0)}}
+                    onClick={()=>{this.throttledIndicatorClick(0)}}
                     style={{
                         opacity: this.state.buttonState,
                         left: this.state.buttonDistance,
@@ -178,7 +182,7 @@ class Carousel extends Component {
                 </button>
                 <button
                     className={`${style.circle_button} ${style.next}`}
-                    onClick={()=>{this.handleButtonClick(1)}}
+                    onClick={()=>{this.throttledIndicatorClick(1)}}
                     style={{
                         opacity: this.state.buttonState,
                         right: this.state.buttonDistance,
