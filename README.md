@@ -31,11 +31,6 @@ Now I have finished those Components:
 
 If you want to join, contact me!
 
-## Acknowledgments
-
-* [@Dabaitu2](https://github.com/Dabaitu2) for building this project.
-
-
 ## License
 
 MIT
