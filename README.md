@@ -35,7 +35,6 @@ If you want to join, contact me!
 
 * [@Dabaitu2](https://github.com/Dabaitu2) for building this project.
 
-
 ## License
 
 MIT
