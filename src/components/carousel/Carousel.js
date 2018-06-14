@@ -5,7 +5,7 @@
  */
 import React, {Component} from 'react';
 import style from './Carousel.css'
-import Carousel_item from "./Carousel-item";
+import CarouselItem from "./Carousel-item";
 import PropTypes from 'prop-types';
 import throttle from 'throttle-debounce/throttle';
 
@@ -87,9 +87,12 @@ class Carousel extends Component {
     }
 
     startTimer() {
-        this.state.timer = setInterval(()=>{
+        let timer = setInterval(()=>{
             this.playSide()
-        },this.Interval)
+        },this.Interval);
+        this.setState({
+            timer: timer
+        })
     }
 
 
@@ -200,7 +203,7 @@ class Carousel extends Component {
                     {
                         React.Children.map(this.state.items, (v, index) => {
                                 return (
-                                    <Carousel_item
+                                    <CarouselItem
                                         key={index}
                                         width={this.width}
                                         height={this.height}
@@ -210,7 +213,7 @@ class Carousel extends Component {
                                         activeIndex={this.state.activeIndex}
                                         lastIndex={this.state.lastIndex}
                                     >{v}
-                                    </Carousel_item>
+                                    </CarouselItem>
                                 );
                             }
                         )

@@ -15,13 +15,13 @@ import EventRegister from "../../libs/internal/EventRegister";
 import { IDGen } from '../../libs/utils/IDGenerator'
 import Input from "../Input/Input";
 import PickerTable from "../PickTable/PickerTable";
+import ScrollBar from "../ScrollBar/ScrollBar";
 
 const idGen = IDGen;
 
 class TimePicker extends Component {
     constructor(props) {
         super(props);
-        this.clickOutsideId = 'clickOutsideId_' + idGen.next();
         this.state = {
             pickerVisible: false,
             placeHolderText: "选择时间",
@@ -29,8 +29,13 @@ class TimePicker extends Component {
             value: "",
             inPanel: false,
             today: new Date().getDate(),
-            onInputFocus: false
-        }
+            onInputFocus: false,
+            startTime:8,
+            endTime:18,
+            step:15
+        };
+
+        this.timeStore = [];
     }
 
     getChildContext() {
@@ -78,12 +83,11 @@ class TimePicker extends Component {
             })
         }
         this.setState({
-            onInputFocus: false
+            onInputFocus: false,
         });
     };
 
     reset = () => {
-        this.caculateYears(new Date().getFullYear());
         this.setState({
             pickerVisible: false,
             placeHolderText: "选择日期",
@@ -94,19 +98,14 @@ class TimePicker extends Component {
         });
     };
 
-    handleClickOutside = () => {
-        const { pickerVisible, inPanel, onInputFocus } = this.state;
-        if (!pickerVisible) {
-            return
-        }
-        if (inPanel) return;
-        if (onInputFocus) return;
-        this.setState({
-            pickerVisible: false,
-        });
-    };
-
     componentWillMount() {
+        let {startTime, endTime, step} = this.state;
+        for (let i=startTime; i<endTime; i++){
+            this.timeStore.push(i+":"+"00");
+            this.timeStore.push(i+":"+"15");
+            this.timeStore.push(i+":"+"30");
+            this.timeStore.push(i+":"+"45");
+        }
     }
 
     render() {
@@ -123,12 +122,7 @@ class TimePicker extends Component {
                         new Date(value).toUTCString())
                 }
             >
-                <EventRegister
-                    eventName="click"
-                    target={document}
-                    id={this.clickOutsideId}
-                    func={this.handleClickOutside}
-                />
+
                 <Input
                     onIconMouseEnter={this.handleIconMouseEnter}
                     onIconMouseLeave={this.handleIconMouseLeave}
@@ -146,28 +140,23 @@ class TimePicker extends Component {
                     }}
                     ref="picker"
                 />
-                {pickerVisible ?
                     <PickerTable
-                         onMouseEnter={() => {
-                             this.setState({
-                                 inPanel: true
-                             })
-                         }}
-                         onMouseLeave={() => {
-                             this.setState({
-                                 inPanel: false,
-                             });
-                             this.refs.picker.focus();
-                         }}
-                         onClick={(e)=>{
-                             e.stopPropagation && e.stopPropagation()
-                         }}
+                        onInputFocus = {this.state.onInputFocus}
+                        pickerVisible = {pickerVisible}
+                        onMouseLeave={()=>{
+                            // this.refs.picker.focus();
+                        }}
                     >
                         <div className={style.wheelTimePanel}>
-
+                            <ScrollBar innerMode={true}>
+                                {
+                                    this.timeStore.map((v, index)=>{
+                                        return (<div className={"scroll-item"}>{v}</div>)
+                                    })
+                                }
+                            </ScrollBar>
                         </div>
-
-                    </PickerTable> : ""}</div>
+                    </PickerTable></div>
         );
     }
 }

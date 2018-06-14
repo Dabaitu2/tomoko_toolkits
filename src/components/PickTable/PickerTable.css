@@ -16,15 +16,48 @@
 
 @keyframes amSlideDown {
     from {
+        transform-origin: center top;
         opacity: 0;
-        height: 0;
+        transform: scale(1,0);
+        -ms-transform: scale(1,0);		/* IE 9 */
+        -webkit-transform: scale(1,0);	/* Safari and Chrome */
+        -o-transform: scale(1,0);		/* Opera */
+        -moz-transform: scale(1,0);		/* Firefox */
+
     }
     to {
+        transform-origin: center top;
         opacity: 1;
-        height: 10.5em;
+        transform: scale(1,0);
+        -ms-transform: scale(1,1);		/* IE 9 */
+        -webkit-transform: scale(1,1);	/* Safari and Chrome */
+        -o-transform: scale(1,1);		/* Opera */
+        -moz-transform: scale(1,1);		/* Firefox */
+
     }
 }
 
+@keyframes amSlideBack {
+    from {
+        transform-origin: center top;
+        opacity: 1;
+        transform: scale(1,0);
+        -ms-transform: scale(1,1);		/* IE 9 */
+        -webkit-transform: scale(1,1);	/* Safari and Chrome */
+        -o-transform: scale(1,1);		/* Opera */
+        -moz-transform: scale(1,1);		/* Firefox */
+    }
+    to {
+        transform-origin: center top;
+        opacity: 0;
+        transform: scale(1,0);
+        -ms-transform: scale(1,0);		/* IE 9 */
+        -webkit-transform: scale(1,0);	/* Safari and Chrome */
+        -o-transform: scale(1,0);		/* Opera */
+        -moz-transform: scale(1,0);		/* Firefox */
+        visibility:hidden
+    }
+}
 .main {
     justify-content: center;
     top: 2.4em;
@@ -34,45 +67,48 @@
     z-index: 999;
     height: 13em;
     width: 12.5em;
-    display: block;
     overflow: hidden;
-    animation: amSlideDown .1s linear;
 }
 
 .innerBox {
     margin: 0 auto;
-    padding: .5em;
     width: 10.5em;
     height: 10em;
     box-shadow: 0 0 10px #dadaea;
     background-color: #fff;
-    border-radius: 3px;
-    border: 0.4px solid #cecede;
+    border-radius: 5px;
+    border: 0.4px solid #e6e6f6;
+    overflow: inherit;
 }
 
 :global(.triangle) {
-    box-sizing: content-box;
-    width: 0;
-    height: 0;
     position: relative;
-    top: 0px;
-    left: 30px;
-    border-width: 5.5px;
-    border-style: solid;
-    border-color: transparent transparent #cecede transparent;
+    width: 0;
+    top: 0;
+    left: 35px;
+    border: 0.4em solid;
+    border-color: transparent transparent #e6e6f6 transparent;
+    background-color: transparent;
 }
 :global(.triangle:after) {
     position: absolute;
     display: block;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    color: transparent;
-    background-color: transparent;
+    color: rgba(255, 255, 255, 0);
     content: " ";
-    border-width: 5.3px;
-    top: 0.9px;
-    margin-left: -5px;
+    border: 0.38em solid;
+    top: 0.1em;
+    margin-left: -0.36em;
     border-top-width: 0;
     border-bottom-color: #fff;
+}
+
+.unshow{
+    animation: amSlideBack .1s linear;
+    opacity: 0;
+    transform: scale(1,0);
+}
+
+.active {
+    display: block;
+    animation: amSlideDown .1s linear;
 }

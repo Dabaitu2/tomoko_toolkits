@@ -7,6 +7,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import style from '../BasePicker.css'
 
+// 子组件是无状态组件
 class YearPanel extends Component {
     constructor(props) {
         super(props);

@@ -46,7 +46,8 @@ class Input extends Component {
             type: isString(type) ? type : "text",
             value: isString(value) ? value : "",
             disabled: isBoolean(disabled) ? disabled : false,
-            ref: isString(InputRef) ? InputRef : "input"
+            ref: isString(InputRef) ? InputRef : "input",
+            active:false
         }
     }
 
@@ -75,7 +76,7 @@ class Input extends Component {
 
 
     render() {
-        let {icon, placeHolderText, IconEnter, IconLeave, IconClick, disabled,
+        let {icon, placeHolderText, IconEnter, IconLeave, IconClick, disabled, active,
             inputBlur, inputClick, inputFocus, inputChange, type, value, ref} = this.state;
         return (
             <div className={style.main}>
@@ -96,11 +97,23 @@ class Input extends Component {
                        className={`
                             ${style.input}
                             ${disabled ? style.disabled : ""}
+                            ${active? style.active: ""}
                        `}
                        placeholder={placeHolderText}
                        onClick={inputClick}
-                       onBlur={inputBlur}
-                       onFocus={inputFocus}
+                       onBlur={()=>{
+                           inputBlur();
+                           this.setState({
+                               active: false
+                           })
+                       }}
+                       onFocus={() => {
+                           inputFocus();
+                           this.setState({
+                               active: true
+                           })
+                        }
+                       }
                        onChange={inputChange}
                        ref={ref}
                        type={type}

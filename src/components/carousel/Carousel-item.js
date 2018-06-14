@@ -8,7 +8,7 @@ import style from './Carousel-item.css';
 import PropTypes from 'prop-types';
 
 
-class Carousel_item extends Component {
+class CarouselItem extends Component {
     constructor(props) {
         super(props);
         let {index} = props;
@@ -118,7 +118,7 @@ class Carousel_item extends Component {
     }
 }
 
-Carousel_item.contextTypes = {
+CarouselItem.contextTypes = {
     component: PropTypes.any,
     width: PropTypes.string,
     height: PropTypes.string,
@@ -129,4 +129,4 @@ Carousel_item.contextTypes = {
 };
 
 
-export default Carousel_item;
+export default CarouselItem;

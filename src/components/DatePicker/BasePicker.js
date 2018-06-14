@@ -487,6 +487,7 @@ class BasePicker extends Component {
 }
 
 BasePicker.childContextTypes = {
+    // 传给子组件的父组件调用
     component: PropTypes.any,
 };
 

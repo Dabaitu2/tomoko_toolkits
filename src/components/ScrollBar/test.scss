@@ -1,0 +1,71 @@
+$scroll-color: #ffffff;
+$hover-color: #f5f5f5;
+$click-color: #5bb4ff;
+$item-height: calc(2em / 0.8);
+.wrapper {
+  position: relative;
+  .main {
+    background-color: $scroll-color;
+    position: relative;
+    overflow: scroll;
+    margin-right: -18px;
+    height: 11.1em;
+    width: 12em;
+  }
+}
+
+
+
+.verticalZone {
+  height: 10em;
+  position: absolute;
+  right: 0.05em;
+  top: 0.1em;
+  background-color: rgba(255, 255, 255, 0);
+  width: 0.4em;
+  padding: 0.05em;
+  z-index: 10;
+  cursor: pointer;
+
+  .thumbnail {
+    width: 0.35em;
+    //height: 1.4em;
+    border-radius: 6px;
+    background-color: #5bb4ff;
+    cursor: pointer;
+  }
+
+  .thumbnail:hover {
+    background-color: #6a9fff;
+  }
+}
+
+:global(div.scroll-item) {
+  height: $item-height;
+  line-height: $item-height;
+  padding-left: calc(0.6em / 0.8);
+  font-size: 0.8em;
+  color: #b0b0bf;
+  cursor: pointer;
+}
+:global(div.scroll-item:hover) {
+  background-color: $hover-color;
+  color: #5bb4ff;
+}
+
+.HorizontalZone {
+  width: 12em;
+  position: absolute;
+  left: 0.1em;
+  bottom: 1.05em;
+  background-color: rgba(255, 255, 255, 0);
+  height: 0.4em;
+  padding: 0.05em;
+  z-index: 10;
+  .thumbnail {
+    height: 0.35em;
+    border-radius: 6px;
+    background-color: #e2e2f3;
+  }
+}
+
