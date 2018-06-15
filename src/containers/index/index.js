@@ -41,7 +41,9 @@ export default class Index extends Component {
                             <Input
                                 icon={"bookmarks"}
                             />
+                            <TimePicker isPrecise={true}/>
                             <TimePicker />
+                            <TimePicker startTime={10} endTime={13} step={10}/>
                         </div>
                     </div>
                 </div>

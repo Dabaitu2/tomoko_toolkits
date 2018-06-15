@@ -19,6 +19,8 @@ class PickerTable extends Component {
             inPanel: false,
             pickerVisible: props.pickerVisible || false,
             onInputFocus: props.onInputFocus || false,
+            // 控制close动画
+            readyToclose: false,
         }
 
     }
@@ -26,7 +28,7 @@ class PickerTable extends Component {
     getChildContext() {
         return {
             inPanel: this.state.inPanel,
-            pickerVisible: this.state.pickerVisible
+            pickerVisible: this.state.pickerVisible,
         };
     };
 
@@ -41,24 +43,33 @@ class PickerTable extends Component {
         if (onInputFocus) return;
         this.setState({
             pickerVisible: false,
-
+            readyToclose: true
         });
 
     };
 
 
     componentWillReceiveProps(nextProps) {
+        let readyToclose = !(nextProps.pickerVisible && nextProps.pickerVisible === true);
         this.setState({
             pickerVisible: nextProps.pickerVisible || false,
             onInputFocus: nextProps.onInputFocus || false,
+            readyToclose: readyToclose
         })
     }
 
 
+
+
+
     render() {
+        console.log(this.props.width);
         return (
-            // this.state.pickerVisible ?
-                <div className={`${style.main} ${this.state.pickerVisible ? style.active : style.unshow}`}
+                <div className={`
+                ${style.main}
+                ${this.state.pickerVisible ? style.active : style.unshow}
+                ${this.state.readyToclose ? style.unshowAnimate : ""}
+                `}
                  onMouseEnter={() => {
                      this.setState({
                          inPanel: true
@@ -72,10 +83,14 @@ class PickerTable extends Component {
                  onClick={(e)=>{
                      e.stopPropagation && e.stopPropagation()
                  }}
-
+                     style={{
+                         width: this.props.width,
+                     }}
             >
                 <div className="triangle"/>
-                <div className={style.innerBox}>
+                <div
+                    className={style.innerBox}
+                >
                     {this.props.children}
                 </div>
                 <EventRegister
@@ -93,7 +108,7 @@ PickerTable.propTypes = {};
 
 PickerTable.childContextTypes = {
     inPanel: PropTypes.bool,
-    pickerVisible: PropTypes.bool
+    pickerVisible: PropTypes.bool,
 };
 
 export default PickerTable;

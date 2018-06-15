@@ -20,7 +20,7 @@
 }
 
 input.disabled{
-    background-color: #dcdcec;
+    background-color: #e1e1e1;
 }
 
 input.disabled:hover {

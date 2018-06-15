@@ -14,16 +14,39 @@ import {on, off} from "../../libs/utils/dom";
  *
  *
  * */
+
+const A_EM = 19;
 class ScrollBar extends Component {
     constructor(props) {
         super(props);
-        let length =  this.length = this.props.children.length;
-        this.childWidth = this.props.children[0].props.style ? this.props.children[0].props.style.width.split("em")[0] * 16 : 0;
+
+        let {children, height} = this.props;
+        let length = this.length = children.length;
+        let style = children[0].props.style || false;
+
+        this.height = height && height.split("em")[0] || "12.4";
+
+        this.childWidth =   style.width ?
+                            style.width.indexOf("em")!==-1 ?
+                                style.width.split("em")[0] * 16 :
+                                style.width.indexOf("px")!== -1 ?
+                                    style.width.split("px")[0] :
+                                    0 :
+                                    0;
+
+        this.childHeight = style.height?
+                            style.height.indexOf("em")!==-1 ?
+                            style.height.split("em")[0] * 16 :
+                            style.height.indexOf("px")!== -1 ?
+                            style.height.split("px")[0] :
+                                    1 : 1;
+
+        this.clientItem_num = Math.ceil(this.height.split("em")[0] * A_EM / this.childHeight);
 
         this.state = {
             item_num: length,
             translate: 0,
-            showThumbnail: length > 5,
+            showThumbnail: length > this.clientItem_num,
             thumbnailLength: 1,
             horizontalThumbnailLength: 50,
             moveY: 0,
@@ -33,13 +56,15 @@ class ScrollBar extends Component {
             showHorizon: false,
             clientY: 0,
             onDrag: false,
-            lastY:0,
-            lastX:0,
-            initX:0,
-            initY:0,
-            scrollDistance:0,
-            horizontalScrollDistance:0,
-            TopY:0
+            lastY: 0,
+            lastX: 0,
+            initX: 0,
+            initY: 0,
+            scrollDistance: 0,
+            horizontalScrollDistance: 0,
+            TopY: 0,
+            LeftX: 0,
+            firstLoad: true,
         }
     }
 
@@ -55,7 +80,7 @@ class ScrollBar extends Component {
         return this.context.pickerVisible
     }
 
-    handleScroll = (e) => {
+    handleScroll = () => {
         const wrap = this.wrap();
         this.setState({
             moveY: ((wrap.scrollTop * 100) / wrap.clientHeight),
@@ -63,44 +88,63 @@ class ScrollBar extends Component {
         })
     };
 
-
-    componentDidMount() {
-        // 处理页面缩放和滚轮导致的视口变化
-        on(window, "resize", ()=>{
-            const wrap = this.wrap();
-            this.setState({
-                TopY: wrap.getBoundingClientRect().top
-            })
-        });
-        on(document, "scroll",()=>{
-            const wrap = this.wrap();
-            this.setState({
-                TopY: wrap.getBoundingClientRect().top
-            })
-        });
-        this.onWindowResize();
-    };
-
-    onWindowResize = () => {
-        const wrap = this.wrap();
-        let blockNum =  Math.floor(this.length/5);
-        let calcnalHeight = 5 / (this.length % 5 + blockNum*5) * this.refs.wrap.clientHeight * 0.97;
+    handleChange = function (key, val) {
         this.setState({
-            thumbnailLength:calcnalHeight,
-            horizontalThumbnailLength:  this.refs.wrap.clientWidth / this.childWidth * this.refs.wrap.clientWidth * 1.05,
-            showHorizon: this.refs.wrap.clientWidth < this.childWidth,
-            scrollDistance: wrap.scrollHeight - wrap.clientHeight+1,
-            horizontalScrollDistance: wrap.scrollWidth - wrap.clientWidth + 1,
-            TopY: wrap.getBoundingClientRect().top
+            [key]: val
         })
     };
+
+    componentDidMount() {
+
+        const wrap = this.wrap();
+        let {showHorizon} = this.props;
+        let blockNum = Math.floor(this.length / this.clientItem_num);
+        let clientRect = wrap.getBoundingClientRect();
+        let calcnalHeight = this.clientItem_num
+            / (this.length % this.clientItem_num + blockNum * this.clientItem_num)
+            * wrap.clientHeight
+            * 0.97;
+
+
+        // 处理页面缩放和滚轮导致的视口变化
+        on(window, "resize", () => {
+            const wrap = this.wrap();
+            this.handleChange("TopY", wrap.getBoundingClientRect().top);
+            this.handleChange("LeftX", wrap.getBoundingClientRect().left);
+        });
+        on(document, "scroll", () => {
+            const wrap = this.wrap();
+            this.handleChange("TopY", wrap.getBoundingClientRect().top);
+            this.handleChange("LeftX", wrap.getBoundingClientRect().left);
+        });
+
+
+        this.setState({
+            thumbnailLength: calcnalHeight,
+            horizontalThumbnailLength: wrap.clientWidth / this.childWidth * wrap.clientWidth * 1.05,
+            showHorizon: showHorizon == null ? wrap.clientWidth < this.childWidth : showHorizon,
+            scrollDistance: wrap.scrollHeight - wrap.clientHeight + 1,
+            horizontalScrollDistance: wrap.scrollWidth - wrap.clientWidth + 1,
+            TopY: clientRect.top,
+            LeftX: clientRect.left,
+        });
+
+
+    };
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            TopY: this.wrap().getBoundingClientRect().top
+        })
+    }
+
 
     componentDidUpdate() {
         // 谨慎使用setState
         // 不是内部组件格式就直接返回
-        if(!this.state.innerMode) return;
+        if (!this.state.innerMode) return;
         // 没有选中则直接跳回
-        if(!this.context.pickerVisible &&
+        if (!this.context.pickerVisible &&
             this.wrap().scrollTop !== 0 &&
             (this.state.moveY !== 0 || this.state.moveX !== 0) &&
             this.state.chosen === ""
@@ -114,38 +158,33 @@ class ScrollBar extends Component {
         }
     }
 
-    moveHandler = (e)=>{
+    moveHandler = (e) => {
         const wrap = this.wrap();
         let {scrollDistance, thumbnailLength, TopY} = this.state;
-        console.log(e.clientY);
         // 通过修改scrollTop来触发onScroll里的handleScroll，而不是通过修改moveY数据
         // *0.65是为了降速，使得thumbnail跟得上鼠标
         this.wrap().scrollTop =
             (e.clientY > TopY ?
-                e.clientY > TopY+wrap.clientHeight ?
+                e.clientY > TopY + wrap.clientHeight ?
                     wrap.clientHeight :
                     e.clientY - TopY :
-                    0)
-            * scrollDistance / (wrap.clientHeight-thumbnailLength) * 0.62 * wrap.clientHeight / 100;
+                0)
+            * scrollDistance / (wrap.clientHeight - thumbnailLength) * 0.62 * wrap.clientHeight / 100;
     };
 
 
     HorizontalMoveHanlder = (e) => {
         const wrap = this.wrap();
-        let {lastX, moveX, horizontalScrollDistance, initX} = this.state;
-        // 适当提速，使thumbnail能追上鼠标
-        let move = (e.clientX - lastX)*1.7;
-        let newMoveX = moveX + move<=0? 0:moveX + move;
-        // 拖动下界
-        let threshold = horizontalScrollDistance * 100 / wrap.clientWidth;
-        console.log(threshold);
-        this.wrap().scrollLeft = (newMoveX>threshold? threshold:newMoveX) * wrap.clientWidth / 100;
-        this.setState({
-            lastX: e.clientX > initX ?
-                e.clientX < (initX+wrap.clientWidth) ?
-                    e.clientX: (initX+wrap.clientWidth) :initX,
-            moveX: newMoveX>threshold? threshold:newMoveX
-        });
+        let {horizontalScrollDistance, horizontalThumbnailLength, LeftX} = this.state;
+        // 通过修改scrollTop来触发onScroll里的handleScroll，而不是通过修改moveY数据
+        // *0.65是为了降速，使得thumbnail跟得上鼠标
+        this.wrap().scrollLeft =
+            (e.clientX > LeftX ?
+                e.clientX > LeftX + wrap.clientWidth ?
+                    wrap.clientWidth :
+                    e.clientX - LeftX :
+                0)
+            * horizontalScrollDistance / (wrap.clientHeight - horizontalThumbnailLength) * 0.62 * wrap.clientWidth / 100;
     };
 
     HorizontalDragHandler = (e) => {
@@ -192,29 +231,42 @@ class ScrollBar extends Component {
     };
 
 
-
     render() {
-        let { showThumbnail, thumbnailLength, moveY, moveX, showHorizon, onDrag,
-            horizontalThumbnailLength} = this.state;
+        let {
+            showThumbnail, thumbnailLength, moveY, moveX, showHorizon, onDrag,
+            horizontalThumbnailLength
+        } = this.state;
         return (
-            <div className={style.wrapper}>
+            <div
+                className={style.wrapper}
+                style={{
+                    height: this.height  + "em",
+                }}
+            >
                 <div className={style.main}
-                     onScroll={(e)=>{
+                     style={{
+                         height: this.height + "em",
+                         overflowX: showHorizon? "auto":"hidden",
+                     }}
+                     onScroll={(e) => {
                          this.handleScroll(e);
                      }}
-                     ref = "wrap"
+
+                     ref="wrap"
                 >
-                        {this.props.children}
+                    {this.props.children}
                 </div>
                 {(showThumbnail || onDrag) ?
-                    <div className={style.verticalZone}>
+                    <div
+                        className={style.verticalZone}
+                    >
                         <div className={style.thumbnail}
                              style={{
-                                 backgroundColor: (this.inPanel()||onDrag) ? "#d3e9fa" : "#ffffff",
-                                 height: thumbnailLength+"px",
+                                 backgroundColor: (this.inPanel() || onDrag) ? "#e1e1e1" : "#ffffff",
+                                 height: thumbnailLength + "px",
                                  transform: "translateY(" + moveY + "%)"
                              }}
-                             onMouseDown={(e)=>{
+                             onMouseDown={(e) => {
                                  this.dragHandler(e);
                              }}
 
@@ -224,11 +276,11 @@ class ScrollBar extends Component {
                     <div className={style.HorizontalZone}>
                         <div className={style.thumbnail}
                              style={{
-                                 backgroundColor: (this.inPanel()||onDrag) ? "#d3e9fa" : "#ffffff",
-                                 width: horizontalThumbnailLength+"px",
+                                 backgroundColor: (this.inPanel() || onDrag) ? "#e1e1e1" : "#ffffff",
+                                 width: horizontalThumbnailLength + "px",
                                  transform: "translateX(" + moveX + "%)"
                              }}
-                             onMouseDown={(e)=>{
+                             onMouseDown={(e) => {
                                  this.HorizontalDragHandler(e);
                              }}
                         />

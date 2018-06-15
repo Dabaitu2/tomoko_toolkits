@@ -3,8 +3,8 @@
     left: 5px;
     margin-top: .2em;
     padding: .5em;
-    width: 10.5em;
-    height: 10em;
+    /*width: 10.5em;*/
+    /*height: 10em;*/
     box-shadow: 0 0 10px #e6e6f6;
     background-color: #fff;
     border-radius: 3px;
@@ -65,15 +65,17 @@
     margin-top: .2em;
     position: absolute;
     z-index: 999;
-    height: 13em;
-    width: 12.5em;
+    /*height: 13em;*/
+    /*width: 12.5em;*/
     overflow: hidden;
+    padding: 8px;
+    padding-top: 0;
 }
 
 .innerBox {
     margin: 0 auto;
-    width: 10.5em;
-    height: 10em;
+    /*width: 10.5em;*/
+    /*height: 10em;*/
     box-shadow: 0 0 10px #dadaea;
     background-color: #fff;
     border-radius: 5px;
@@ -103,7 +105,6 @@
 }
 
 .unshow{
-    animation: amSlideBack .1s linear;
     opacity: 0;
     transform: scale(1,0);
 }
@@ -111,4 +112,12 @@
 .active {
     display: block;
     animation: amSlideDown .1s linear;
+}
+
+.hide {
+    display: none !important;
+}
+
+.unshowAnimate {
+    animation: amSlideBack .1s linear;
 }

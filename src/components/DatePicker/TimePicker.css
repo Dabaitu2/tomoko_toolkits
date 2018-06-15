@@ -24,3 +24,26 @@
 .wheelTimePanel {
 
 }
+
+.timeAidTitle {
+    /*text-align: center;*/
+}
+
+.timeAidSpan {
+    font-size: 0.8em;
+    box-sizing: border-box;
+    display: inline-block;
+    padding-left: calc(0.6em / 0.8);
+    margin-left:calc(0.2em / 0.8);
+    width: 3.3em;
+}
+
+.aidBottom {
+    position: relative;
+    top: -0.4em;
+    border-top: 1px solid #c5c5c5;
+    background-color: #fff;
+    line-height: 1.5em;
+    padding-top: 0.2em;
+
+}
