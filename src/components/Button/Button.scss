@@ -1,0 +1,104 @@
+$font-size: 0.85em;
+$success: #3fd679;
+$danger: #fc766d;
+$warning: #ecce41;
+$default: #a7a7a7;
+$primary: #5bb4ff;
+
+.button {
+  background-color: $primary;
+  border: none;
+  border-radius: 3px;
+  height: calc(2em / 0.85);
+  width: calc(5em / 0.85);
+  margin: 10px 5px;
+  font-size: $font-size;
+  color: white;
+  cursor: pointer;
+  transition: .2s ease-in-out;
+  &.success {
+    background-color: $success;
+  }
+  &.danger {
+    background-color: $danger;
+  }
+  &.warning {
+    background-color: $warning;
+  }
+  &.default {
+    background-color: $default;
+  }
+  &.round {
+    border-radius: 3em;
+  }
+}
+
+.button:hover {
+  opacity: 0.6;
+}
+
+.text {
+  display: inline-block;
+  letter-spacing: 2px;
+}
+
+.button.disable {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button.disable:hover {
+  opacity: 0.6;
+}
+
+.button.disable > * {
+  pointer-events: none;
+}
+
+.button.plain {
+  background-color: #fff;
+  border: 1px solid $primary;
+  color: $primary;
+}
+
+.plain:hover {
+  opacity: 1;
+  background-color: $primary;
+  color: white;
+}
+
+.warning.plain {
+  border: 1px solid $warning;
+  color: $warning;
+  &:hover {
+    background-color: $warning;
+    color: white;
+  }
+}
+
+.danger.plain {
+  border: 1px solid $danger;
+  color: $danger;
+  &:hover {
+    background-color: $danger;
+    color: white;
+  }
+}
+
+.default.plain {
+  border: 1px solid $default;
+  color: $default;
+  &:hover {
+    background-color: $default;
+    color: white;
+  }
+}
+
+.success.plain {
+  border: 1px solid $success;
+  color: $success;
+  &:hover {
+    background-color: $success;
+    color: white;
+  }
+}

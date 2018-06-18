@@ -1,5 +1,5 @@
 $scroll-color: #ffffff;
-$hover-color: #f5f5f5;
+$hover-color: rgba(243, 243, 243, 0.65);
 $click-color: #5bb4ff;
 $item-height: calc(2em / 0.8);
 .wrapper {
@@ -12,8 +12,6 @@ $item-height: calc(2em / 0.8);
     overflow: scroll;
     margin-right: -17px;
     margin-bottom: -22px;
-
-    //width: 12em;
   }
 }
 
@@ -32,10 +30,10 @@ $item-height: calc(2em / 0.8);
 
   .thumbnail {
     width: 0.35em;
-    //height: 1.4em;
     border-radius: 6px;
     background-color: #cbcbcb;
     cursor: pointer;
+
   }
 
   .thumbnail:hover {
@@ -50,19 +48,34 @@ $item-height: calc(2em / 0.8);
   font-size: 0.8em;
   color: #b0b0bf;
   cursor: pointer;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0);
   box-sizing: border-box;
+  position: relative;
+  z-index: 2;
 }
 :global(div.scroll-item:hover) {
   background-color: $hover-color;
   color: #5bb4ff;
 }
 
+:global(div.scroll-item.baseActive) {
+  background-color: rgba(226, 226, 226, 0.47) !important;
+  color: #00B7FF;
+}
+
+:global(div.scroll-item.active) {
+   color: white;
+ }
+
+:global(div.scroll-item.active:hover) {
+  background-color: $hover-color;
+  color: #ffffff;
+}
+
 .HorizontalZone {
   width: 12em;
   position: absolute;
   left: 0.1em;
-  //bottom: 1.05em;
   bottom: -0.3em;
   background-color: rgba(255, 255, 255, 0);
   height: 0.4em;

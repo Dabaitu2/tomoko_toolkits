@@ -65,12 +65,18 @@ nav{
 }
 
 .panel{
+    margin-bottom: 1em;
     height: 18em;
-    width: 30em;
+    width: 31em;
     padding: 1em;
     box-sizing: border-box;
     background-color: #fff;
     border-radius: 4px;
-    box-shadow: 0 0 3px #d7d7d7;
-    border: 0.03em solid #d1d7e9;
+    border: 0.06em solid #d1d7e9;
+    transition: .4s ease-in-out;
+}
+
+.panel:hover {
+    box-shadow: 0 0 5px #c7c7c7;
+    border: 0.06em solid #d1d7e9;
 }

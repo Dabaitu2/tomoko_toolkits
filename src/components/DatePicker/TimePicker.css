@@ -40,10 +40,21 @@
 
 .aidBottom {
     position: relative;
-    top: -0.4em;
-    border-top: 1px solid #c5c5c5;
+    top: -0.3em;
+    border-top: 1px solid #e2e2e2;
     background-color: #fff;
     line-height: 1.5em;
     padding-top: 0.2em;
-
+    flex-direction: row-reverse;
+    padding-right: 0.7em;
 }
+
+.aidBottom span{
+    margin-left: 1.2em;
+    margin-right: 0.8em;
+    font-size: 0.8em;
+    float: right;
+    cursor: pointer;
+}
+
+

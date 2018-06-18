@@ -5,6 +5,8 @@ import Carousel from "../../components/carousel/Carousel";
 import BasePicker from '../../components/DatePicker/BasePicker';
 import Input from "../../components/Input/Input";
 import TimePicker from "../../components/DatePicker/TimePicker";
+import ScrollBar from "../../components/ScrollBar/ScrollBar";
+import Button from "../../components/Button/Button";
 
 export default class Index extends Component {
     constructor(props) {
@@ -44,7 +46,21 @@ export default class Index extends Component {
                             <TimePicker isPrecise={true}/>
                             <TimePicker />
                             <TimePicker startTime={10} endTime={13} step={10}/>
+                            <Button type={"success"}>成功</Button>
+                            <Button type={"danger"}>危险</Button>
+                            <Button type={"warning"}>警告</Button>
+                            <Button type={"default"}>缺省</Button>
+                            <Button >确定</Button>
+                            <Button disabled>确定</Button>
+                            <Button plain>确定</Button>
+                            <Button plain type={"success"} >成功</Button>
+                            <Button plain type={"danger"} >危险</Button>
+                            <Button plain round type={"default"} >缺省</Button>
                         </div>
+                        <div className={`${style.item} ${style.panel}`}>
+
+                        </div>
+
                     </div>
                 </div>
 

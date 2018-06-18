@@ -83,6 +83,8 @@
     overflow: inherit;
 }
 
+
+
 :global(.triangle) {
     position: relative;
     width: 0;
@@ -120,4 +122,16 @@
 
 .unshowAnimate {
     animation: amSlideBack .1s linear;
+}
+
+.innerBox.preciseBar::before {
+    content: " ";
+    position: absolute;
+    top: 5%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: rgba(91, 180, 255, 0.63);
+    width: 90%;
+    height: 2em;
+    z-index: 1;
 }

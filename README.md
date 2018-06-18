@@ -22,14 +22,13 @@ Now I have finished those Components:
     PickTable (popover)
     EventRegister
     IDGenerator
-    ScrollBar
+    ScrollBar （rewrite）
+    Button
+    timePicker 
     
-    timePicker (in the progress)
+    Logo (in the progress)
+    Badge (in the progress)
 ```
-
-## Contributing
-
-If you want to join, contact me!
 
 ## License
 
